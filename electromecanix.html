@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Electromécanix – Cours Technique</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue:#1a3a6b;--blue-light:#2563eb;--orange:#ea580c;
+    --green:#16a34a;--gray:#475569;--white:#ffffff;--red:#dc2626;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Barlow',sans-serif;background:#0f1929;color:#fff;min-height:100vh}
+
+  header{background:linear-gradient(135deg,#0a1628 0%,#1a3a6b 50%,#0a1628 100%);border-bottom:3px solid var(--orange);padding:1.2rem 2rem;display:flex;align-items:center;gap:1.5rem;position:sticky;top:0;z-index:100}
+  .logo-badge{background:var(--orange);color:#fff;font-family:'Barlow Condensed',sans-serif;font-size:2rem;font-weight:900;padding:.3rem .9rem;letter-spacing:1px;clip-path:polygon(0 0,95% 0,100% 50%,95% 100%,0 100%)}
+  .header-text h1{font-family:'Barlow Condensed',sans-serif;font-size:1.9rem;font-weight:700;letter-spacing:2px;text-transform:uppercase}
+  .header-text p{font-size:.8rem;color:#94a3b8;letter-spacing:1px;text-transform:uppercase}
+
+  nav{background:#111e33;border-bottom:1px solid #1e3a5f;display:flex;overflow-x:auto;scrollbar-width:none}
+  nav::-webkit-scrollbar{display:none}
+  .tab-btn{flex-shrink:0;padding:.9rem 1.3rem;background:none;border:none;border-bottom:3px solid transparent;color:#64748b;font-family:'Barlow Condensed',sans-serif;font-size:.9rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all .2s;white-space:nowrap;display:flex;align-items:center;gap:.4rem}
+  .tab-btn:hover{color:#94a3b8;background:rgba(255,255,255,.03)}
+  .tab-btn.active{color:var(--orange);border-bottom-color:var(--orange);background:rgba(234,88,12,.08)}
+  .tab-btn .num{background:var(--orange);color:#fff;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700}
+  .tab-btn.test-btn{color:#4ade80}.tab-btn.test-btn.active{color:#4ade80;border-bottom-color:#4ade80;background:rgba(22,163,74,.08)}
+  .tab-btn.test-btn .num{background:#16a34a}
+
+  main{max-width:1100px;margin:0 auto;padding:1.5rem 2rem}
+  .tab-content{display:none}.tab-content.active{display:block;animation:fadeIn .3s ease}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+  .section-header{margin-bottom:1.8rem;padding-bottom:1rem;border-bottom:1px solid #1e3a5f}
+  .section-header .theme-num{font-family:'Barlow Condensed',sans-serif;font-size:.78rem;font-weight:600;color:var(--orange);letter-spacing:3px;text-transform:uppercase;margin-bottom:.3rem}
+  .section-header h2{font-family:'Barlow Condensed',sans-serif;font-size:2.3rem;font-weight:900;text-transform:uppercase;letter-spacing:1px;line-height:1}
+  .section-header p{margin-top:.5rem;color:#94a3b8;font-size:.9rem;max-width:700px}
+
+  .card{background:#111e33;border:1px solid #1e3a5f;border-radius:4px;padding:1.4rem;margin-bottom:1.4rem}
+  .card h3{font-family:'Barlow Condensed',sans-serif;font-size:1.2rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--orange);margin-bottom:1rem;display:flex;align-items:center;gap:.6rem}
+
+  table{width:100%;border-collapse:collapse;font-size:.88rem}
+  th{background:#0a1628;color:var(--orange);font-family:'Barlow Condensed',sans-serif;font-size:.76rem;letter-spacing:2px;text-transform:uppercase;padding:.7rem 1rem;text-align:left;border-bottom:2px solid var(--orange)}
+  td{padding:.6rem 1rem;border-bottom:1px solid #1e3a5f;color:#cbd5e1;vertical-align:top;line-height:1.5}
+  tr:hover td{background:rgba(255,255,255,.02)}
+  td:first-child{color:#fff;font-weight:600}
+
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+  @media(max-width:700px){.grid-2,.grid-3{grid-template-columns:1fr}}
+
+  .info-box{background:rgba(37,99,235,.1);border:1px solid rgba(37,99,235,.3);border-left:4px solid var(--blue-light);border-radius:4px;padding:.9rem 1.1rem;margin:1rem 0;font-size:.88rem;color:#bfdbfe;line-height:1.6}
+  .warn-box{background:rgba(234,88,12,.1);border:1px solid rgba(234,88,12,.3);border-left:4px solid var(--orange);border-radius:4px;padding:.9rem 1.1rem;margin:1rem 0;font-size:.88rem;color:#fed7aa;line-height:1.6}
+  .success-box{background:rgba(22,163,74,.1);border:1px solid rgba(22,163,74,.3);border-left:4px solid var(--green);border-radius:4px;padding:.9rem 1.1rem;margin:1rem 0;font-size:.88rem;color:#bbf7d0;line-height:1.6}
+
+  .formula-box{background:#0a1628;border:2px solid var(--blue-light);border-radius:4px;padding:1.1rem 1.4rem;margin:1rem 0;font-family:'Barlow Condensed',sans-serif;font-size:1.3rem;font-weight:600;color:#7dd3fc;text-align:center;letter-spacing:1px}
+  .formula-box .formula-name{font-size:.72rem;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:2px;margin-bottom:.4rem}
+  .formula-vars{margin-top:.7rem;display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center}
+  .formula-var{background:rgba(37,99,235,.15);border:1px solid rgba(37,99,235,.3);padding:.2rem .5rem;border-radius:3px;font-size:.72rem;color:#93c5fd;font-family:'Barlow',sans-serif;font-weight:500}
+
+  /* TOOL CARDS */
+  .tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:1rem;margin-bottom:1rem}
+  .tool-card{background:#0a1628;border:1px solid #1e3a5f;border-radius:6px;padding:1rem;display:flex;flex-direction:column;align-items:center;text-align:center;transition:border-color .2s,transform .15s}
+  .tool-card:hover{border-color:var(--orange);transform:translateY(-2px)}
+  .tool-card .tool-svg{width:90px;height:70px;margin-bottom:.7rem}
+  .tool-card h4{font-family:'Barlow Condensed',sans-serif;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#fff;margin-bottom:.3rem}
+  .tool-card p{font-size:.76rem;color:#64748b;line-height:1.4}
+  .tool-card .tool-cat{font-size:.68rem;font-weight:600;color:var(--orange);letter-spacing:1px;text-transform:uppercase;margin-bottom:.4rem}
+
+  /* VIDEO LINKS */
+  .video-link-card{background:#0a1628;border:1px solid #1e3a5f;border-radius:6px;overflow:hidden;margin:.8rem 0;display:flex;align-items:center;gap:0;transition:border-color .2s;cursor:pointer}
+  .video-link-card:hover{border-color:#ea580c}
+  .video-link-card a{display:flex;align-items:center;gap:0;width:100%;text-decoration:none;color:inherit}
+  .video-thumb{width:140px;min-width:140px;height:82px;background:#111e33;display:flex;align-items:center;justify-content:center;position:relative;flex-shrink:0}
+  .video-thumb img{width:100%;height:100%;object-fit:cover}
+  .play-btn{position:absolute;width:42px;height:42px;background:rgba(234,88,12,.9);border-radius:50%;display:flex;align-items:center;justify-content:center}
+  .play-btn svg{margin-left:3px}
+  .video-info{padding:.8rem 1rem}
+  .video-info .vid-platform{font-size:.68rem;font-weight:600;color:var(--orange);letter-spacing:1px;text-transform:uppercase;margin-bottom:.25rem}
+  .video-info .vid-title{font-size:.88rem;font-weight:600;color:#fff;line-height:1.3;margin-bottom:.2rem}
+  .video-info .vid-desc{font-size:.76rem;color:#64748b;line-height:1.3}
+
+  /* TRANSMISSION */
+  .transm-card{background:#0a1628;border:1px solid #1e3a5f;border-radius:4px;padding:1.1rem;text-align:center}
+  .transm-card h4{font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#fff;margin:.6rem 0 .3rem}
+  .transm-card p{font-size:.78rem;color:#64748b;line-height:1.4}
+
+  /* QUIZ */
+  .quiz-header{background:linear-gradient(135deg,#052e16,#14532d);border:1px solid #16a34a;border-radius:4px;padding:1.2rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+  .score-box{background:#16a34a;color:#fff;font-family:'Barlow Condensed',sans-serif;font-size:1.8rem;font-weight:900;padding:.4rem .9rem;border-radius:4px;min-width:80px;text-align:center}
+  .question-card{background:#111e33;border:1px solid #1e3a5f;border-radius:4px;padding:1.3rem;margin-bottom:1rem;transition:border-color .2s}
+  .question-card.correct{border-color:var(--green);background:rgba(22,163,74,.08)}
+  .question-card.wrong{border-color:var(--red);background:rgba(220,38,38,.08)}
+  .question-num{font-family:'Barlow Condensed',sans-serif;font-size:.72rem;font-weight:700;color:var(--orange);letter-spacing:2px;text-transform:uppercase;margin-bottom:.4rem}
+  .question-text{font-size:.97rem;font-weight:500;color:#fff;margin-bottom:.9rem;line-height:1.5}
+  .options{display:flex;flex-direction:column;gap:.45rem}
+  .option-btn{background:#0a1628;border:1px solid #1e3a5f;border-radius:4px;padding:.65rem .9rem;color:#cbd5e1;font-family:'Barlow',sans-serif;font-size:.87rem;text-align:left;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:.65rem}
+  .option-btn:hover:not(:disabled){border-color:var(--blue-light);color:#fff;background:rgba(37,99,235,.1)}
+  .option-btn:disabled{cursor:default}
+  .option-btn.correct-ans{border-color:var(--green)!important;background:rgba(22,163,74,.2)!important;color:#4ade80!important}
+  .option-btn.wrong-ans{border-color:var(--red)!important;background:rgba(220,38,38,.15)!important;color:#f87171!important}
+  .option-letter{width:24px;height:24px;border-radius:50%;background:#1e3a5f;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.82rem;flex-shrink:0}
+  .explanation{margin-top:.7rem;padding:.75rem;background:rgba(0,0,0,.3);border-radius:4px;font-size:.82rem;color:#94a3b8;line-height:1.5;display:none}
+  .explanation.show{display:block}
+  .explanation strong{color:#4ade80}
+  .progress-bar{height:5px;background:#1e3a5f;border-radius:3px;overflow:hidden;margin:.4rem 0;width:180px}
+  .progress-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--green),#4ade80);transition:width .5s ease}
+  .btn-primary{background:var(--orange);color:#fff;border:none;padding:.65rem 1.3rem;font-family:'Barlow Condensed',sans-serif;font-size:.95rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border-radius:3px;transition:all .15s}
+  .btn-primary:hover{background:#c2410c;transform:translateY(-1px)}
+  .btn-secondary{background:transparent;color:#94a3b8;border:1px solid #1e3a5f;padding:.65rem 1.3rem;font-family:'Barlow Condensed',sans-serif;font-size:.95rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border-radius:3px;transition:all .15s}
+  .btn-secondary:hover{border-color:#94a3b8;color:#fff}
+  .quiz-actions{margin-top:1.5rem;display:flex;gap:.8rem;flex-wrap:wrap}
+
+  footer{text-align:center;padding:1.5rem;color:#334155;font-size:.78rem;border-top:1px solid #1e3a5f;margin-top:2rem}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-badge">⚡EM</div>
+  <div class="header-text">
+    <h1>Electromécanix</h1>
+    <p>Cours Technique de Qualification · 3e &amp; 4e année</p>
+  </div>
+</header>
+
+<nav id="tabNav">
+  <button class="tab-btn active" onclick="showTab('t1')"><span class="num">1</span> Outillage</button>
+  <button class="tab-btn" onclick="showTab('t2')"><span class="num">2</span> Tournage</button>
+  <button class="tab-btn" onclick="showTab('t3')"><span class="num">3</span> Fraisage</button>
+  <button class="tab-btn" onclick="showTab('t4')"><span class="num">4</span> Formules</button>
+  <button class="tab-btn" onclick="showTab('t5')"><span class="num">5</span> Transmissions</button>
+  <button class="tab-btn test-btn" onclick="showTab('quiz')"><span class="num">✓</span> Auto-Test</button>
+</nav>
+
+<main>
+
+<!-- ===== THEME 1 : OUTILLAGE ===== -->
+<div id="t1" class="tab-content active">
+  <div class="section-header">
+    <div class="theme-num">Thème 01</div>
+    <h2>L'Outillage Mécanique</h2>
+    <p>Identification, utilisation et entretien des outils de base en atelier d'électromécanique.</p>
+  </div>
+
+  <div class="warn-box">⚠️ <strong>Sécurité en atelier :</strong> Port obligatoire des EPI (chaussures de sécurité, lunettes, blouse). Vérifier l'état des outils avant utilisation. Ne jamais utiliser un outil détérioré.</div>
+
+  <!-- OUTILS DE SERRAGE -->
+  <div class="card">
+    <h3>🔧 1.1 — Outils de serrage et de vissage</h3>
+    <div class="tools-grid">
+
+      <div class="tool-card">
+        <svg class="tool-svg" viewBox="0 0 90 70" xmlns="http://www.w3.org/2000/svg">
+          <rect x="5" y="30" width="55" height="10" rx="2" fill="#475569"/>
+          <rect x="55" y="24" width="14" height="22" rx="2" fill="#64748b"/>
+          <rect x="62" y="20" width="22" height="30" rx="3" fill="none" stroke="#94a3b8" stroke-width="2.5"/>
+          <rect x="55" y="32" width="7" height="6" fill="#0a1628"/>
+          <rect x="3" y="32" width="10" height="6" rx="1" fill="#334155"/>
+          <text x="45" y="62" text-anchor="middle" font-size="9" fill="#ea580c" font-family="sans-serif" font-weight="bold">Clé à fourche</text>
+        </svg>
+        <div class="tool-cat">Serrage</div>
+        <h4>Clé à fourche</h4>
+        <p>Fourche ouverte à deux mâchoires. Taille en mm (8, 10, 13, 17…). Toujours tirer vers soi.</p>
+      </div>
+
+      <div class="tool-card">
+        <svg class="tool-svg" viewBox="0 0 90 70" xmlns="http://www.w3.org/2000/svg">
+          <rect x="5" y="30" width="50" height="10" rx="2" fill="#475569"/>
+          <circle cx="68" cy="35" r="16" fill="none" stroke="#64748b" stroke-width="5"/>
+          <circle cx="68" cy="35" r="9" fill="none" stroke="#94a3b8" stroke-width="2"/>
+          <polygon points="68,26 72,30 72,40 68,44 64,40 64,30" fill="#334155"/>
+          <text x="45" y="62" text-anchor="middle" font-size="9" fill="#ea580c" font-family="sans-serif" font-weight="bold">Clé polygonale</text>
+        </svg>
+        <div class="tool-cat">Serrage</div>
+        <h4>Clé polygonale</h4>
+        <p>Anneau fermé, contact sur 6 faces. Serrage puissant, adapté aux couples élevés.</p>
+      </div>
+
+      <div class="tool-card">
+        <svg class="tool-svg" viewBox="0 0 90 70" xmlns="http://www.w3.org/2000/svg">
+          <rect x="5" y="31" width="40" height="8" rx="2" fill="#475569"/>
+          <rect x="38" y="26" width="10" height="18" rx="3" fill="#1e3a5f" stroke="#2563eb" stroke-width="1.5"/>
+          <rect x="44" y="29" width="30" height="12" rx="4" fill="#334155"/>
+          <rect x="44" y="32" width="28" height="6" rx="2" fill="#1e293b"/>
+          <line x1="50" y1="33" x2="50" y2="37" stroke="#ea580c" stroke-width="1"/>
+          <line x1="55" y1="33" x2="55" y2="37" stroke="#64748b" stroke-width="0.8"/>
+          <line x1="60" y1="33" x2="60" y2="37" stroke="#64748b" stroke-width="0.8"/>
+          <line x1="65" y1="33" x2="65" y2="37" stroke="#64748b" stroke-width="0.8"/>
+          <text x="45" y="62" text-anchor="middle" font-size="9" fill="#ea580c" font-family="sans-serif" font-weight="bold">Clé dyna.</text>
+        </svg>
+        <div class="tool-cat">Serrage précis</div>
+        <h4>Clé dynamométrique</h4>
+        <p>Couple de serrage précis en N·m. Déclenche avec un clic à la valeur réglée. Étalonner régulièrement.</p>
+      </div>
+
+      <div class="tool-card">
+        <svg class="tool-svg" viewBox="0 0 90 70" xmlns="http://www.w3.org/2000/svg">
+          <rect x="5" y="33" width="60" height="5" rx="1" fill="#475569"/>
+          <rect x="58" y="29" width="10" height="13" rx="2" fill="#334155"/>
+          <circle cx="72" cy="35" r="11" fill="none" stroke="#64748b" stroke-width="4"/>
+          <circle cx="72" cy="35" r="5" fill="#0a1628"/>
+          <text x="45" y="62" text-anchor="middle" font-size="9" fill="#ea580c" font-family="sans-serif" font-weight="bold">Clé à pipe</text>
+        </svg>
+        <div class="tool-cat">Serrage</div>
+        <h4>Clé à pipe</h4>
+        <p>Douille tubulaire pour emplacements difficiles. Meilleur contact que la fourche.</p>
+      </div>
+
+      <div class="tool-card">
+        <svg class="tool-svg" viewBox="0 0 90 70" xmlns="http://www.w3.org/2000/svg">
+          <rect x="40" y="10" width="10" height="45" rx="3" fill="#475569"/>
+          <rect x="37" y="6" width="16" height="8" rx="2" fill="#334155"/>
+          <line x1="33" y1="8" x2="33" y2="14" stroke="#64748b" stroke-width="3" stroke-linecap="round"/>
+          <line x1="57" y1="8" x2="57" y2="14" stroke="#64748b" stroke-width="3" stroke-linecap="round"/>
+          <rect x="42" y="52" width="6" height="10" rx="1" fill="#94a3b8"/>
+          <line x1="45" y1="54" x2="45" y2="60" stroke="#1e293b" stroke-width="1.5"/>
+          <text x="45" y="68" text-anchor="middle" font-size="9" fill="#ea580c" font-family="sans-serif" font-weight="bold">Tournevis plat</text>
+        </svg>
+        <div class="tool-cat">Vissage</div>
+        <h4>Tournevis plat</h4>
+        <p>Fente simple. Choisir la taille adaptée à la tête de vis. Ne pas utiliser comme levier.</p>
+      </div>
+
+      <div class="tool-card">
+        <svg class="tool-svg" viewBox="0 0 90 70" xmlns="http://www.w3.org/2000/svg">
+          <rect x="40" y="8" width="10" height="45" rx="3" fill="#475569"/>
+          <rect x="37" y="4" width="16" height="8" rx="2" fill="#1e3a5f"/>
+          <line x1="45" y1="52" x2="40" y2="62" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="45" y1="52" x2="50" y2="62" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="45" y1="52" x2="45" y2="64" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="45" y1="52" x2="38" y2="57" stroke="#64748b" stroke-width="1.5"/>
+          <line x1="45" y1="52" x2="52" y2="57" stroke="#64748b" stroke-width="1.5"/>
+          <text x="45" y="70" text-anchor="middle" font-size="8" fill="#ea580c" font-family="sans-serif" font-weight="bold">Cruciforme</text>
+        </svg>
+        <div class="tool-cat">Vissage</div>
+        <h4>Tournevis cruciforme</h4>
+        <p>Empreinte Phillips ou Pozidrive. Très répandu en industrie. Taille PH1, PH2, PH3.</p>
+      </div>
+
+      <div class="tool-card">
+        <svg class="tool-svg" viewBox="0 0 90 70" xmlns="http://www.w3.org/2000/svg">
+          <rect x="5" y="32" width="45" height="6" rx="1" fill="#475569"/>
+          <rect x="46" y="29" width="6" height="12" rx="1" fill="#334155"/>
+          <polygon points="52,35 65,28 68,35 65,42" fill="#64748b"/>
+          <circle cx="70" cy="35" r="5" fill="#1e293b" stroke="#94a3b8" stroke-width="1.5"/>
+          <polygon points="70,30 73,33 73,37 70,40 67,37 67,33" fill="#ea580c"/>
+          <text x="45" y="62" text-anchor="middle" font-size="9" fill="#ea580c" font-family="sans-serif" font-weight="bold">Clé Allen</text>
+        </svg>
+        <div class="tool-cat">Vissage</div>
+        <h4>Clé Allen (CHC)</h4>
+        <p>Hexagonale creuse. Vis à six pans creux. Très utilisée en mécanique industrielle.</p>
+      </div>
+
+    </div>
+
+    <table>
+      <thead><tr><th>Outil</th><th>Utilisation</th><th>Précautions</th></tr></thead>
+      <tbody>
+        <tr><td>Clé à fourche</td><td>Écrous et boulons hexagonaux. Taille en mm.</td><td>Toujours tirer (ne pas pousser). Taille exacte obligatoire.</td></tr>
+        <tr><td>Clé à pipe</td><td>Accès aux emplacements difficiles. Meilleur contact.</td><td>Ne pas rallonger avec un tube.</td></tr>
+        <tr><td>Clé polygonale</td><td>Serrage puissant, couples élevés. 6 ou 12 pans.</td><td>Vérifier l'engagement complet.</td></tr>
+        <tr><td>Clé dynamométrique</td><td>Serrage avec couple précis (N·m).</td><td>Étalonner régulièrement. Remettre à zéro après usage.</td></tr>
+        <tr><td>Tournevis plat / cruciforme</td><td>Vis fendue (plat) ou Phillips/Pozidrive (cruciforme).</td><td>Taille adaptée à la vis. Ne pas utiliser en levier.</td></tr>
+        <tr><td>Clé Allen</td><td>Vis CHC (6 pans creux). Standard industrie.</td><td>Ne pas utiliser une clé trop petite.</td></tr>
+        <tr><td>Tournevis TORX</td><td>Vis étoilée. Courante en équipement moderne.</td><td>Taille exacte (T20, T25, T30…).</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- OUTILS DE MESURE -->
+  <div class="card">
+    <h3>📏 1.2 — Outils de mesure et de traçage</h3>
+    <div class="tools-grid">
+
+      <div class="tool-card">
+        <svg class="tool-svg" viewBox="0 0 90 70" xmlns="http://www.w3.org/2000/svg">
+          <rect x="5" y="20" width="70" height="16" rx="2" fill="#334155"/>
+          <rect x="5" y="20" width="70" height="8" rx="2" fill="#475569"/>
+          <rect x="8" y="36" width="64" height="12" rx="2" fill="#1e3a5f" stroke="#2563eb" stroke-width="1"/>
+          <rect x="30" y="36" width="2" height="12" fill="#2563eb"/>
+          <line x1="12" y1="44" x2="12" y2="47" stroke="#94a3b8" stroke-width="1"/>
+          <line x1="18" y1="44" x2="18" y2="47" stroke="#94a3b8" stroke-width="1"/>
+          <line x1="24" y1="44" x2="24" y2="47" stroke="#94a3b8" stroke-width="1"/>
+          <rect x="5" y="20" width="12" height="28" rx="1" fill="#64748b"/>
+          <rect x="5" y="48" width="12" height="6" rx="1" fill="#ea580c"/>
+          <text x="45" y="65" text-anchor="middle" font-size="9" fill="#ea580c" font-family="sans-serif" font-weight="bold">Pied à coulisse</text>
+        </svg>
+        <div class="tool-cat">Mesure linéaire</div>
+        <h4>Pied à coulisse</h4>
+        <p>Mesure ext., int., profondeur. Précision 0,1 mm (vernier) ou 0,02 mm.</p>
+      </div>
+
+      <div class="tool-card">
+        <svg class="tool-svg" viewBox="0 0 90 70" xmlns="http://www.w3.org/2000/svg">
+          <rect x="5" y="30" width="40" height="10" rx="2" fill="#334155"/>
+          <rect x="42" y="24" width="22" height="22" rx="3" fill="#1e3a5f" stroke="#2563eb" stroke-width="1.5"/>
+          <circle cx="53" cy="35" r="8" fill="none" stroke="#2563eb" stroke-width="1"/>
+          <line x1="53" y1="28" x2="53" y2="27" stroke="#94a3b8" stroke-width="1.5"/>
+          <line x1="58" y1="30" x2="59" y2="29" stroke="#94a3b8" stroke-width="1"/>
+          <line x1="61" y1="35" x2="62" y2="35" stroke="#94a3b8" stroke-width="1"/>
+          <line x1="53" y1="35" x2="57" y2="32" stroke="#ea580c" stroke-width="1.5"/>
+          <rect x="50" y="44" width="6" height="5" fill="#334155"/>
+          <text x="45" y="65" text-anchor="middle" font-size="9" fill="#ea580c" font-family="sans-serif" font-weight="bold">Micromètre</text>
+        </svg>
+        <div class="tool-cat">Mesure haute précision</div>
+        <h4>Micromètre (palmer)</h4>
+        <p>Précision 0,01 mm voire 0,001 mm. Mesure des épaisseurs et diamètres fins.</p>
+      </div>
+
+      <div class="tool-card">
+        <svg class="tool-svg" viewBox="0 0 90 70" xmlns="http://www.w3.org/2000/svg">
+          <rect x="15" y="10" width="60" height="8" rx="1" fill="#334155"/>
+          <rect x="17" y="11" width="56" height="6" rx="1" fill="#475569"/>
+          <line x1="20" y1="18" x2="20" y2="22" stroke="#94a3b8" stroke-width="1.2"/>
+          <line x1="27" y1="18" x2="27" y2="24" stroke="#94a3b8" stroke-width="1"/>
+          <line x1="34" y1="18" x2="34" y2="22" stroke="#94a3b8" stroke-width="1.2"/>
+          <line x1="41" y1="18" x2="41" y2="24" stroke="#94a3b8" stroke-width="1"/>
+          <line x1="48" y1="18" x2="48" y2="22" stroke="#94a3b8" stroke-width="1.2"/>
+          <line x1="55" y1="18" x2="55" y2="24" stroke="#94a3b8" stroke-width="1"/>
+          <line x1="62" y1="18" x2="62" y2="22" stroke="#94a3b8" stroke-width="1.2"/>
+          <line x1="69" y1="18" x2="69" y2="24" stroke="#94a3b8" stroke-width="1"/>
+          <text x="45" y="40" text-anchor="middle" font-size="8" fill="#64748b" font-family="sans-serif">0    50   100   150</text>
+          <text x="45" y="62" text-anchor="middle" font-size="9" fill="#ea580c" font-family="sans-serif" font-weight="bold">Règle acier</text>
+        </svg>
+        <div class="tool-cat">Traçage</div>
+        <h4>Règle acier</h4>
+        <p>Traçage de lignes droites, mesures brutes. Avec trusquin pour lignes parallèles.</p>
+      </div>
+
+      <div class="tool-card">
+        <svg class="tool-svg" viewBox="0 0 90 70" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="8" width="6" height="50" rx="2" fill="#475569"/>
+          <rect x="30" y="8" width="6" height="50" rx="2" fill="#334155" opacity="0.5"/>
+          <rect x="30" y="52" width="35" height="6" rx="2" fill="#475569"/>
+          <line x1="36" y1="52" x2="65" y2="52" stroke="#94a3b8" stroke-width="1"/>
+          <line x1="36" y1="48" x2="36" y2="52" stroke="#94a3b8" stroke-width="1.5"/>
+          <line x1="30" y1="15" x2="26" y2="15" stroke="#94a3b8" stroke-width="1"/>
+          <line x1="30" y1="25" x2="26" y2="25" stroke="#94a3b8" stroke-width="1"/>
+          <rect x="26" y="52" width="4" height="6" fill="#ea580c"/>
+          <text x="45" y="68" text-anchor="middle" font-size="9" fill="#ea580c" font-family="sans-serif" font-weight="bold">Équerre</text>
+        </svg>
+        <div class="tool-cat">Contrôle</div>
+        <h4>Équerre de contrôle</h4>
+        <p>Vérification de l'angle droit (90°). Détection de défauts de perpendicularité.</p>
+      </div>
+
+      <div class="tool-card">
+        <svg class="tool-svg" viewBox="0 0 90 70" xmlns="http://www.w3.org/2000/svg">
+          <rect x="35" y="8" width="8" height="38" rx="2" fill="#334155"/>
+          <rect x="36" y="8" width="3" height="38" fill="#475569" opacity="0.5"/>
+          <circle cx="39" cy="46" r="12" fill="none" stroke="#2563eb" stroke-width="2"/>
+          <line x1="39" y1="46" x2="44" y2="38" stroke="#ea580c" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="39" cy="46" r="2" fill="#2563eb"/>
+          <line x1="39" y1="34" x2="39" y2="36" stroke="#94a3b8" stroke-width="1.5"/>
+          <line x1="46" y1="37" x2="45" y2="38.5" stroke="#94a3b8" stroke-width="1"/>
+          <line x1="50" y1="44" x2="48" y2="44" stroke="#94a3b8" stroke-width="1"/>
+          <text x="45" y="68" text-anchor="middle" font-size="9" fill="#ea580c" font-family="sans-serif" font-weight="bold">Comparateur</text>
+        </svg>
+        <div class="tool-cat">Contrôle géométrique</div>
+        <h4>Comparateur</h4>
+        <p>Précision 0,001 mm. Contrôle de concentricité, planéité, faux-rond.</p>
+      </div>
+
+    </div>
+
+    <table>
+      <thead><tr><th>Outil</th><th>Précision</th><th>Usage principal</th></tr></thead>
+      <tbody>
+        <tr><td>Pied à coulisse</td><td>0,1 mm ou 0,02 mm</td><td>Mesure ext., int., profondeur</td></tr>
+        <tr><td>Micromètre (palmer)</td><td>0,01 mm voire 0,001 mm</td><td>Diamètres et épaisseurs fins</td></tr>
+        <tr><td>Comparateur</td><td>0,001 mm</td><td>Concentricité, faux-rond, planéité</td></tr>
+        <tr><td>Règle acier + trusquin</td><td>0,5 mm</td><td>Traçage de lignes parallèles</td></tr>
+        <tr><td>Équerre de contrôle</td><td>Angle 90°</td><td>Vérification de perpendicularité</td></tr>
+        <tr><td>Rapporteur d'angles</td><td>1°</td><td>Mesure et traçage d'angles</td></tr>
+      </tbody>
+    </table>
+    <div class="info-box">💡 <strong>Pied à coulisse :</strong> Lecture = valeur du bec principal + graduation du vernier qui coïncide. Un modèle numérique lit directement. Toujours nettoyer les mâchoires avant la mesure.</div>
+  </div>
+
+  <!-- OUTILS DE COUPE -->
+  <div class="card">
+    <h3>✂️ 1.3 — Outils de coupe et de perçage</h3>
+    <div class="tools-grid">
+
+      <div class="tool-card">
+        <svg class="tool-svg" viewBox="0 0 90 70" xmlns="http://www.w3.org/2000/svg">
+          <line x1="45" y1="5" x2="45" y2="55" stroke="#475569" stroke-width="6" stroke-linecap="round"/>
+          <line x1="43" y1="5" x2="45" y2="55" stroke="#64748b" stroke-width="2"/>
+          <!-- hélice foret -->
+          <path d="M42,10 Q48,18 42,26 Q36,34 42,42" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
+          <path d="M48,10 Q42,18 48,26 Q54,34 48,42" fill="none" stroke="#64748b" stroke-width="1.5"/>
+          <polygon points="41,55 45,65 49,55" fill="#ea580c"/>
+          <rect x="35" y="3" width="20" height="6" rx="2" fill="#334155"/>
+          <text x="45" y="70" text-anchor="middle" font-size="8" fill="#ea580c" font-family="sans-serif" font-weight="bold">Foret HSS</text>
+        </svg>
+        <div class="tool-cat">Perçage</div>
+        <h4>Foret HSS</h4>
+        <p>Perçage acier, alu, plastique. Vitesse adaptée au diamètre et matériau.</p>
+      </div>
+
+      <div class="tool-card">
+        <svg class="tool-svg" viewBox="0 0 90 70" xmlns="http://www.w3.org/2000/svg">
+          <!-- Corps taraud -->
+          <rect x="42" y="5" width="6" height="50" rx="1" fill="#475569"/>
+          <!-- Filets -->
+          <line x1="40" y1="12" x2="50" y2="12" stroke="#94a3b8" stroke-width="1"/>
+          <line x1="40" y1="17" x2="50" y2="17" stroke="#94a3b8" stroke-width="1"/>
+          <line x1="40" y1="22" x2="50" y2="22" stroke="#94a3b8" stroke-width="1"/>
+          <line x1="40" y1="27" x2="50" y2="27" stroke="#94a3b8" stroke-width="1"/>
+          <line x1="40" y1="32" x2="50" y2="32" stroke="#94a3b8" stroke-width="1"/>
+          <line x1="40" y1="37" x2="50" y2="37" stroke="#94a3b8" stroke-width="1"/>
+          <line x1="40" y1="42" x2="50" y2="42" stroke="#94a3b8" stroke-width="1"/>
+          <polygon points="42,50 45,62 48,50" fill="#64748b"/>
+          <rect x="32" y="2" width="26" height="7" rx="2" fill="#334155"/>
+          <text x="45" y="70" text-anchor="middle" font-size="9" fill="#ea580c" font-family="sans-serif" font-weight="bold">Taraud</text>
+        </svg>
+        <div class="tool-cat">Filetage intérieur</div>
+        <h4>Taraud</h4>
+        <p>Crée un filetage intérieur (taraudage). Jeu de 3 (ébaucheur, intermédiaire, finisseur).</p>
+      </div>
+
+      <div class="tool-card">
+        <svg class="tool-svg" viewBox="0 0 90 70" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="45" cy="30" r="22" fill="none" stroke="#475569" stroke-width="5"/>
+          <circle cx="45" cy="30" r="6" fill="#334155"/>
+          <!-- Rainures lime -->
+          <line x1="23" y1="20" x2="67" y2="40" stroke="#64748b" stroke-width="1.2"/>
+          <line x1="23" y1="26" x2="67" y2="46" stroke="#64748b" stroke-width="1"/>
+          <rect x="40" y="6" width="10" height="5" rx="1" fill="#334155"/>
+          <text x="45" y="65" text-anchor="middle" font-size="9" fill="#ea580c" font-family="sans-serif" font-weight="bold">Filière</text>
+        </svg>
+        <div class="tool-cat">Filetage extérieur</div>
+        <h4>Filière</h4>
+        <p>Crée un filetage extérieur sur tige cylindrique. Utiliser avec porte-filière.</p>
+      </div>
+
+      <div class="tool-card">
+        <svg class="tool-svg" viewBox="0 0 90 70" xmlns="http://www.w3.org/2000/svg">
+          <rect x="20" y="30" width="50" height="10" rx="2" fill="#475569"/>
+          <!-- dents lime -->
+          <line x1="25" y1="30" x2="27" y2="24" stroke="#94a3b8" stroke-width="1.2"/>
+          <line x1="31" y1="30" x2="33" y2="24" stroke="#94a3b8" stroke-width="1.2"/>
+          <line x1="37" y1="30" x2="39" y2="24" stroke="#94a3b8" stroke-width="1.2"/>
+          <line x1="43" y1="30" x2="45" y2="24" stroke="#94a3b8" stroke-width="1.2"/>
+          <line x1="49" y1="30" x2="51" y2="24" stroke="#94a3b8" stroke-width="1.2"/>
+          <line x1="55" y1="30" x2="57" y2="24" stroke="#94a3b8" stroke-width="1.2"/>
+          <rect x="5" y="28" width="18" height="14" rx="5" fill="#334155"/>
+          <text x="45" y="62" text-anchor="middle" font-size="9" fill="#ea580c" font-family="sans-serif" font-weight="bold">Lime plate</text>
+        </svg>
+        <div class="tool-cat">Ajustage</div>
+        <h4>Lime plate</h4>
+        <p>Ajustage, ébavurage, finition de surface. Taille (bâtarde, demi-douce, douce).</p>
+      </div>
+
+      <div class="tool-card">
+        <svg class="tool-svg" viewBox="0 0 90 70" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="45,8 42,55 48,55" fill="#64748b"/>
+          <polygon points="45,8 42,55 48,55" fill="none" stroke="#94a3b8" stroke-width="1"/>
+          <rect x="38" y="55" width="14" height="10" rx="3" fill="#334155"/>
+          <line x1="43" y1="20" x2="47" y2="20" stroke="#ea580c" stroke-width="1"/>
+          <line x1="43" y1="26" x2="47" y2="26" stroke="#64748b" stroke-width="0.8"/>
+          <line x1="43" y1="32" x2="47" y2="32" stroke="#64748b" stroke-width="0.8"/>
+          <text x="45" y="68" text-anchor="middle" font-size="9" fill="#ea580c" font-family="sans-serif" font-weight="bold">Poinçon</text>
+        </svg>
+        <div class="tool-cat">Traçage/Perçage</div>
+        <h4>Poinçon à centrer</h4>
+        <p>Amorce conique avant perçage pour éviter la déviation du foret.</p>
+      </div>
+
+      <div class="tool-card">
+        <svg class="tool-svg" viewBox="0 0 90 70" xmlns="http://www.w3.org/2000/svg">
+          <rect x="42" y="8" width="6" height="48" rx="2" fill="#475569"/>
+          <!-- cannelures alésoir -->
+          <line x1="39" y1="12" x2="42" y2="12" stroke="#94a3b8" stroke-width="1.5"/>
+          <line x1="39" y1="18" x2="42" y2="18" stroke="#94a3b8" stroke-width="1.5"/>
+          <line x1="39" y1="24" x2="42" y2="24" stroke="#94a3b8" stroke-width="1.5"/>
+          <line x1="39" y1="30" x2="42" y2="30" stroke="#94a3b8" stroke-width="1.5"/>
+          <line x1="39" y1="36" x2="42" y2="36" stroke="#94a3b8" stroke-width="1.5"/>
+          <line x1="39" y1="42" x2="42" y2="42" stroke="#94a3b8" stroke-width="1.5"/>
+          <line x1="48" y1="12" x2="51" y2="12" stroke="#64748b" stroke-width="1.5"/>
+          <line x1="48" y1="18" x2="51" y2="18" stroke="#64748b" stroke-width="1.5"/>
+          <line x1="48" y1="24" x2="51" y2="24" stroke="#64748b" stroke-width="1.5"/>
+          <line x1="48" y1="30" x2="51" y2="30" stroke="#64748b" stroke-width="1.5"/>
+          <line x1="48" y1="36" x2="51" y2="36" stroke="#64748b" stroke-width="1.5"/>
+          <polygon points="42,56 45,65 48,56" fill="#2563eb"/>
+          <rect x="36" y="5" width="18" height="6" rx="2" fill="#334155"/>
+          <text x="45" y="70" text-anchor="middle" font-size="9" fill="#ea580c" font-family="sans-serif" font-weight="bold">Alésoir</text>
+        </svg>
+        <div class="tool-cat">Finition</div>
+        <h4>Alésoir</h4>
+        <p>Finition d'un alésage percé. Tolérance serrée (H7, H6). Rotation lente et régulière.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>📹 Vidéos — Outillage mécanique</h3>
+
+    <div class="video-link-card">
+      <a href="https://www.youtube.com/watch?v=ZWhVFdNdJfA" target="_blank" rel="noopener">
+        <div class="video-thumb">
+          <img src="https://img.youtube.com/vi/ZWhVFdNdJfA/mqdefault.jpg" alt="Cours outillage démontage" onerror="this.style.display='none'">
+          <div class="play-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div>
+        </div>
+        <div class="video-info">
+          <div class="vid-platform">▶ YouTube</div>
+          <div class="vid-title">Cours outillage de démontage mécanique</div>
+          <div class="vid-desc">Présentation complète des outils de démontage utilisés en atelier mécanique professionnel.</div>
+        </div>
+      </a>
+    </div>
+
+    <div class="video-link-card">
+      <a href="https://www.youtube.com/watch?v=Wq9dqRLGflw" target="_blank" rel="noopener">
+        <div class="video-thumb">
+          <img src="https://img.youtube.com/vi/Wq9dqRLGflw/mqdefault.jpg" alt="Procédés d'usinage" onerror="this.style.display='none'">
+          <div class="play-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div>
+        </div>
+        <div class="video-info">
+          <div class="vid-platform">▶ YouTube</div>
+          <div class="vid-title">Procédés d'usinage — perçage, tournage, fraisage, rectification</div>
+          <div class="vid-desc">Vue d'ensemble des procédés d'enlèvement de matière : machines, mouvements, axes.</div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="success-box">✅ <strong>À retenir :</strong> Connaître le nom, l'usage et la précision de chaque outil. Savoir identifier un outil et justifier son choix selon la situation.</div>
+</div>
+
+<!-- ===== THEME 2 : TOURNAGE ===== -->
+<div id="t2" class="tab-content">
+  <div class="section-header">
+    <div class="theme-num">Thème 02</div>
+    <h2>Le Tournage</h2>
+    <p>Opérations d'usinage par enlèvement de matière sur pièces à révolution. Tour parallèle conventionnel.</p>
+  </div>
+
+  <div class="card">
+    <h3>🔄 2.1 — Principe du tournage</h3>
+    <p style="color:#94a3b8;line-height:1.7;margin-bottom:1rem">La pièce tourne (mouvement de coupe) tandis que l'outil se déplace (mouvement d'avance). On obtient des pièces de révolution : cylindres, cônes, gorges, filetages.</p>
+    <div class="info-box">🎯 <strong>Les 3 mouvements :</strong><br><strong>Mc</strong> – Mouvement de Coupe : rotation de la pièce (tr/min)<br><strong>Ma</strong> – Mouvement d'Avance : déplacement de l'outil (mm/tr)<br><strong>Mp</strong> – Mouvement de Pénétration : profondeur de passe (mm)</div>
+    <div class="formula-box">
+      <div class="formula-name">Vitesse de coupe ↔ Vitesse de rotation</div>
+      Vc = (π × D × N) / 1000 &nbsp;&nbsp;|&nbsp;&nbsp; N = (Vc × 1000) / (π × D)
+      <div class="formula-vars"><span class="formula-var">Vc en m/min</span><span class="formula-var">D = diamètre pièce (mm)</span><span class="formula-var">N en tr/min</span></div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>🏗 2.2 — Constitution du tour parallèle</h3>
+      <table>
+        <thead><tr><th>Élément</th><th>Rôle</th></tr></thead>
+        <tbody>
+          <tr><td>Poupée fixe</td><td>Contient la broche. Entraîne la pièce. Abrite la boîte de vitesses.</td></tr>
+          <tr><td>Mandrin (3 ou 4 mors)</td><td>Serrage de la pièce. 3 mors = centrage auto, 4 mors = indépendants.</td></tr>
+          <tr><td>Contre-pointe</td><td>Appui pour pièces longues. Peut recevoir foret ou centre.</td></tr>
+          <tr><td>Chariot</td><td>Supporte l'outil. Longitudinal + transversal + porte-outil.</td></tr>
+          <tr><td>Traînard</td><td>Coulisse sur le banc. Commande le déplacement longitudinal.</td></tr>
+          <tr><td>Banc</td><td>Bâti principal. Assure la précision de l'ensemble.</td></tr>
+          <tr><td>Boîte des avances</td><td>Règle vitesse d'avance et pas de filetage.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <h3>🛠 2.3 — Outils de tournage</h3>
+      <table>
+        <thead><tr><th>Outil</th><th>Opération</th></tr></thead>
+        <tbody>
+          <tr><td>Outil à charioter</td><td>Cylindrage extérieur (réduction diamètre)</td></tr>
+          <tr><td>Outil à dresser</td><td>Dressage de face (plan ⊥ axe)</td></tr>
+          <tr><td>Outil à tronçonner</td><td>Séparation d'une pièce</td></tr>
+          <tr><td>Outil à gorge</td><td>Rainure annulaire (circlips, joints)</td></tr>
+          <tr><td>Outil à fileter</td><td>Filetage extérieur (V 60° ou Whitworth)</td></tr>
+          <tr><td>Outil à aléser</td><td>Finition intérieure avec barre d'alésage</td></tr>
+          <tr><td>Plaquettes carbure ISO</td><td>Plaquettes amovibles indexables</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>⚙️ 2.4 — Opérations de tournage</h3>
+    <div class="grid-3">
+      <div class="transm-card"><h4>Cylindrage</h4><p>Réduction du diamètre extérieur. Avance parallèle à l'axe.</p></div>
+      <div class="transm-card"><h4>Dressage</h4><p>Plan perpendiculaire à l'axe de rotation.</p></div>
+      <div class="transm-card"><h4>Conicité</h4><p>Rotation du chariot supérieur selon l'angle voulu.</p></div>
+      <div class="transm-card"><h4>Filetage</h4><p>Hélice à pas constant. Pas métrique ou Whitworth.</p></div>
+      <div class="transm-card"><h4>Tronçonnage</h4><p>Séparation de la pièce. Outil fin, avance très lente.</p></div>
+      <div class="transm-card"><h4>Alésage</h4><p>Finition intérieure avec barre d'alésage. Tolérance précise.</p></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>📊 2.5 — Paramètres de coupe</h3>
+    <div class="grid-2">
+      <div>
+        <div class="formula-box">
+          <div class="formula-name">Vitesse de rotation</div>
+          N = (Vc × 1000) / (π × D)
+          <div class="formula-vars"><span class="formula-var">N en tr/min</span><span class="formula-var">Vc en m/min</span><span class="formula-var">D en mm</span></div>
+        </div>
+        <div class="info-box">💡 <strong>Exemple :</strong> D=50 mm, Vc=100 m/min<br>N = (100×1000)/(3,14×50) ≈ <strong>637 tr/min</strong></div>
+      </div>
+      <table>
+        <thead><tr><th>Matériau</th><th>Vc HSS</th><th>Vc Carbure</th></tr></thead>
+        <tbody>
+          <tr><td>Acier doux</td><td>20–30</td><td>100–200</td></tr>
+          <tr><td>Fonte grise</td><td>15–25</td><td>60–100</td></tr>
+          <tr><td>Aluminium</td><td>80–150</td><td>200–400</td></tr>
+          <tr><td>Laiton</td><td>60–100</td><td>150–300</td></tr>
+          <tr><td>Inox</td><td>10–20</td><td>60–120</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>📹 Vidéos — Tournage</h3>
+    <div class="video-link-card">
+      <a href="https://www.youtube.com/watch?v=WrsDUA6PKoM" target="_blank" rel="noopener">
+        <div class="video-thumb">
+          <img src="https://img.youtube.com/vi/WrsDUA6PKoM/mqdefault.jpg" alt="Tour parallèle AFPA" onerror="this.style.display='none'">
+          <div class="play-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div>
+        </div>
+        <div class="video-info">
+          <div class="vid-platform">▶ YouTube – AFPA</div>
+          <div class="vid-title">Usinage — Découvrir un tour parallèle</div>
+          <div class="vid-desc">Film pédagogique AFPA. Description des éléments du tour et des opérations de base.</div>
+        </div>
+      </a>
+    </div>
+    <div class="video-link-card">
+      <a href="https://www.youtube.com/watch?v=5ZvHB54-1hk" target="_blank" rel="noopener">
+        <div class="video-thumb">
+          <img src="https://img.youtube.com/vi/5ZvHB54-1hk/mqdefault.jpg" alt="Formation tournage" onerror="this.style.display='none'">
+          <div class="play-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div>
+        </div>
+        <div class="video-info">
+          <div class="vid-platform">▶ YouTube</div>
+          <div class="vid-title">Formation tournage — filetage, cône, moletage, clavette</div>
+          <div class="vid-desc">Démonstration pratique de plusieurs opérations avancées sur tour parallèle.</div>
+        </div>
+      </a>
+    </div>
+    <div class="video-link-card">
+      <a href="https://www.youtube.com/watch?v=P2Cs5tM4e-k" target="_blank" rel="noopener">
+        <div class="video-thumb">
+          <img src="https://img.youtube.com/vi/P2Cs5tM4e-k/mqdefault.jpg" alt="Tournage débutants" onerror="this.style.display='none'">
+          <div class="play-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div>
+        </div>
+        <div class="video-info">
+          <div class="vid-platform">▶ YouTube</div>
+          <div class="vid-title">Tutoriel tournage pour débutants (Épisode 11)</div>
+          <div class="vid-desc">Introduction aux premiers gestes sur tour : prise en main, cylindrage, dressage.</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ===== THEME 3 : FRAISAGE ===== -->
+<div id="t3" class="tab-content">
+  <div class="section-header">
+    <div class="theme-num">Thème 03</div>
+    <h2>Le Fraisage</h2>
+    <p>Usinage par enlèvement de matière avec un outil rotatif multi-tranchants. Surfaces planes, rainures, profils.</p>
+  </div>
+
+  <div class="card">
+    <h3>⚙️ 3.1 — Principe du fraisage</h3>
+    <p style="color:#94a3b8;line-height:1.7;margin-bottom:1rem">En fraisage, <strong style="color:#fff">l'outil tourne</strong> (la fraise) et la pièce se déplace. L'outil est multi-tranchants : chaque dent enlève un copeau à chaque passage.</p>
+    <div class="grid-2">
+      <div class="info-box"><strong>🔄 En opposition (conventionnel)</strong><br>L'outil tourne à l'opposé de l'avance. La coupe commence à épaisseur nulle. Adapté aux machines anciennes avec du jeu.</div>
+      <div class="warn-box"><strong>🔄 En concordance (avalant)</strong><br>L'outil tourne dans le sens de l'avance. Coupe commence à épaisseur max. Meilleure surface. Nécessite une machine sans jeu mécanique.</div>
+    </div>
+    <div class="formula-box">
+      <div class="formula-name">Vitesse de coupe</div>
+      Vc = (π × D × N) / 1000
+      <div class="formula-vars"><span class="formula-var">D = diamètre de la fraise (mm)</span><span class="formula-var">N = vitesse broche (tr/min)</span></div>
+    </div>
+    <div class="formula-box">
+      <div class="formula-name">Avance de table (mm/min)</div>
+      Vf = fz × Z × N
+      <div class="formula-vars"><span class="formula-var">fz = avance par dent (mm/dent)</span><span class="formula-var">Z = nombre de dents</span><span class="formula-var">N = tr/min</span></div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>🏗 3.2 — La fraiseuse universelle</h3>
+      <table>
+        <thead><tr><th>Élément</th><th>Rôle</th></tr></thead>
+        <tbody>
+          <tr><td>Broche principale</td><td>Entraîne l'outil. Horizontale ou verticale.</td></tr>
+          <tr><td>Table (XY)</td><td>Supporte la pièce. Déplacements longitudinal et transversal.</td></tr>
+          <tr><td>Console</td><td>Déplacement vertical (axe Z) de la table.</td></tr>
+          <tr><td>Tête orientable</td><td>Inclinaison de l'axe pour fraisage angulaire.</td></tr>
+          <tr><td>Diviseur</td><td>Division angulaire (engrenages, cannelures…)</td></tr>
+          <tr><td>Manivelles graduées</td><td>Déplacement précis au centième de mm.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <h3>🔧 3.3 — Outils de fraisage</h3>
+      <table>
+        <thead><tr><th>Outil</th><th>Application</th></tr></thead>
+        <tbody>
+          <tr><td>Fraise 2 tailles</td><td>Surfaçage, épaulement. Coupe sur 2 faces.</td></tr>
+          <tr><td>Fraise 3 tailles</td><td>Rainure et épaulement. Coupe sur 3 faces.</td></tr>
+          <tr><td>Fraise à queue cylindrique</td><td>Rainures, contournage de profils.</td></tr>
+          <tr><td>Fraise à queue sphérique</td><td>Surfaces courbes, moules, poches 3D.</td></tr>
+          <tr><td>Fraise à plaquettes</td><td>Surfaçage grande surface. Plaquettes amovibles.</td></tr>
+          <tr><td>Fraise conique</td><td>Chanfreins, formes angulaires.</td></tr>
+          <tr><td>Fraise en T</td><td>Rainures en T (guidage de table machine).</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>📋 3.4 — Opérations de fraisage</h3>
+    <div class="grid-3">
+      <div class="transm-card"><h4>Surfaçage</h4><p>Plan horizontal. Fraise à plaquettes ou 2 tailles. Broche verticale.</p></div>
+      <div class="transm-card"><h4>Épaulement</h4><p>Marche à 90°. Fraise 2 ou 3 tailles.</p></div>
+      <div class="transm-card"><h4>Rainurage</h4><p>Gorge droite. Fraise à queue ou 3 tailles.</p></div>
+      <div class="transm-card"><h4>Rainure de clavette</h4><p>Logement pour clavette de transmission. Fraise à queue.</p></div>
+      <div class="transm-card"><h4>Denture / Division</h4><p>Avec diviseur. Engrenages, cannelures. Angle calculé.</p></div>
+      <div class="transm-card"><h4>Contournage</h4><p>Profil quelconque. CNC : interpolation linéaire et circulaire.</p></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>📊 3.5 — Paramètres de coupe</h3>
+    <div class="grid-2">
+      <table>
+        <thead><tr><th>Matériau</th><th>Vc HSS (m/min)</th><th>Vc Carbure</th></tr></thead>
+        <tbody>
+          <tr><td>Acier doux</td><td>20–30</td><td>80–150</td></tr>
+          <tr><td>Fonte</td><td>15–25</td><td>60–100</td></tr>
+          <tr><td>Aluminium</td><td>100–200</td><td>300–600</td></tr>
+          <tr><td>Laiton</td><td>50–80</td><td>100–200</td></tr>
+          <tr><td>Inox</td><td>10–20</td><td>50–100</td></tr>
+        </tbody>
+      </table>
+      <div>
+        <div class="info-box">💡 <strong>Profondeur de passe :</strong><br>Ébauche : 2–5 mm<br>Demi-finition : 0,5–1,5 mm<br>Finition : 0,1–0,3 mm</div>
+        <div class="warn-box">⚠️ <strong>Lubrification :</strong> Indispensable pour acier et inox. Arrosage continu ou huile de coupe.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>📹 Vidéos — Fraisage</h3>
+    <div class="video-link-card">
+      <a href="https://www.youtube.com/watch?v=Wq9dqRLGflw" target="_blank" rel="noopener">
+        <div class="video-thumb">
+          <img src="https://img.youtube.com/vi/Wq9dqRLGflw/mqdefault.jpg" alt="Procédés d'usinage" onerror="this.style.display='none'">
+          <div class="play-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div>
+        </div>
+        <div class="video-info">
+          <div class="vid-platform">▶ YouTube</div>
+          <div class="vid-title">Procédés d'usinage — fraisage, tournage, perçage, rectification</div>
+          <div class="vid-desc">Vue d'ensemble de tous les procédés d'enlèvement de matière, machines et axes de déplacement.</div>
+        </div>
+      </a>
+    </div>
+    <div class="video-link-card">
+      <a href="https://www.youtube.com/shorts/Ujx44laBhg4" target="_blank" rel="noopener">
+        <div class="video-thumb">
+          <img src="https://img.youtube.com/vi/Ujx44laBhg4/mqdefault.jpg" alt="Fraisage vs tournage" onerror="this.style.display='none'">
+          <div class="play-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div>
+        </div>
+        <div class="video-info">
+          <div class="vid-platform">▶ YouTube Shorts</div>
+          <div class="vid-title">Fraisage ou tournage — quelle technique choisir ?</div>
+          <div class="vid-desc">Comparaison rapide des deux procédés d'usinage : différences, avantages, applications typiques.</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ===== THEME 4 : FORMULES ===== -->
+<div id="t4" class="tab-content">
+  <div class="section-header">
+    <div class="theme-num">Thème 04</div>
+    <h2>Les Formules de Mécanique</h2>
+    <p>Formulaire complet des relations physiques essentielles. Unités SI et applications pratiques.</p>
+  </div>
+
+  <div class="card">
+    <h3>📐 4.1 — Vitesses et rotations</h3>
+    <div class="formula-box">
+      <div class="formula-name">Vitesse de coupe ↔ Vitesse de rotation</div>
+      Vc = (π × D × N) / 1000 &nbsp;&nbsp;|&nbsp;&nbsp; N = (Vc × 1000) / (π × D)
+      <div class="formula-vars"><span class="formula-var">Vc = vitesse de coupe (m/min)</span><span class="formula-var">D = diamètre (mm)</span><span class="formula-var">N en tr/min</span></div>
+    </div>
+    <div class="formula-box">
+      <div class="formula-name">Vitesse périphérique</div>
+      v = ω × R = (2π × N × R) / 60
+      <div class="formula-vars"><span class="formula-var">ω = vitesse angulaire (rad/s)</span><span class="formula-var">R = rayon (m)</span></div>
+    </div>
+    <div class="formula-box">
+      <div class="formula-name">Vitesse angulaire</div>
+      ω = 2π × n &nbsp;&nbsp;(n en tr/s) &nbsp;&nbsp;|&nbsp;&nbsp; ω = (2π × N) / 60 &nbsp;&nbsp;(N en tr/min)
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>⚡ 4.2 — Puissance et couple</h3>
+      <div class="formula-box">
+        <div class="formula-name">Puissance mécanique</div>
+        P = C × ω = F × v
+        <div class="formula-vars"><span class="formula-var">P en Watts</span><span class="formula-var">C = couple (N·m)</span><span class="formula-var">F = force (N)</span></div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-name">Couple moteur</div>
+        C = P / ω = (P × 60) / (2π × N)
+        <div class="formula-vars"><span class="formula-var">C en N·m</span><span class="formula-var">P en Watts</span><span class="formula-var">N en tr/min</span></div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-name">Rendement</div>
+        η = Ps / Pe
+        <div class="formula-vars"><span class="formula-var">η sans unité (0 &lt; η ≤ 1)</span><span class="formula-var">Ps = puissance sortante</span><span class="formula-var">Pe = puissance entrante</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>🔢 4.3 — Forces et pressions</h3>
+      <div class="formula-box">
+        <div class="formula-name">Pression</div>
+        P = F / S
+        <div class="formula-vars"><span class="formula-var">P en Pa (N/m²)</span><span class="formula-var">F en N</span><span class="formula-var">S en m²</span></div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-name">Travail mécanique</div>
+        W = F × d = P × t
+        <div class="formula-vars"><span class="formula-var">W en Joules (J)</span><span class="formula-var">d = déplacement (m)</span></div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-name">Loi de Newton</div>
+        F = m × a
+        <div class="formula-vars"><span class="formula-var">m = masse (kg)</span><span class="formula-var">a = accélération (m/s²)</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>⚙️ 4.4 — Formules de transmission</h3>
+    <div class="grid-2">
+      <div>
+        <div class="formula-box">
+          <div class="formula-name">Rapport de transmission</div>
+          i = N₁ / N₂ = Z₂ / Z₁ = D₂ / D₁
+          <div class="formula-vars"><span class="formula-var">N = vitesse (tr/min)</span><span class="formula-var">Z = nb de dents</span><span class="formula-var">D = diamètre (mm)</span></div>
+        </div>
+        <div class="formula-box">
+          <div class="formula-name">Réducteur ou multiplicateur ?</div>
+          i &gt; 1 → réducteur (N₂ &lt; N₁) &nbsp;|&nbsp; i &lt; 1 → multiplicateur
+        </div>
+      </div>
+      <div>
+        <div class="formula-box">
+          <div class="formula-name">Module d'engrenage</div>
+          m = D / Z = p / π
+          <div class="formula-vars"><span class="formula-var">m = module (mm)</span><span class="formula-var">D = Ø primitif (mm)</span><span class="formula-var">p = pas (mm)</span></div>
+        </div>
+        <div class="formula-box">
+          <div class="formula-name">Distance entre centres</div>
+          a = m × (Z₁ + Z₂) / 2
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🌡 4.5 — Unités SI essentielles</h3>
+    <table>
+      <thead><tr><th>Grandeur</th><th>Unité</th><th>Symbole</th><th>Relation utile</th></tr></thead>
+      <tbody>
+        <tr><td>Longueur</td><td>mètre</td><td>m</td><td>1 m = 1000 mm</td></tr>
+        <tr><td>Masse</td><td>kilogramme</td><td>kg</td><td>1 kg = 1000 g</td></tr>
+        <tr><td>Force</td><td>Newton</td><td>N</td><td>1 N = 1 kg·m/s²</td></tr>
+        <tr><td>Couple</td><td>Newton-mètre</td><td>N·m</td><td>—</td></tr>
+        <tr><td>Puissance</td><td>Watt</td><td>W</td><td>1 W = 1 J/s = 1 N·m/s</td></tr>
+        <tr><td>Énergie</td><td>Joule</td><td>J</td><td>1 J = 1 N·m = 1 W·s</td></tr>
+        <tr><td>Pression</td><td>Pascal</td><td>Pa</td><td>1 bar = 10⁵ Pa</td></tr>
+        <tr><td>Vitesse angulaire</td><td>rad/seconde</td><td>rad/s</td><td>1 tr/s = 2π rad/s</td></tr>
+        <tr><td>Fréquence</td><td>Hertz</td><td>Hz</td><td>1 Hz = 1 cycle/s</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="success-box">🎯 <strong>Astuce concours :</strong> Maîtrisez la relation Vc ↔ N, le calcul du rapport de transmission i, et P = C × ω. Ce sont les 3 formules les plus souvent demandées.</div>
+</div>
+
+<!-- ===== THEME 5 : TRANSMISSIONS ===== -->
+<div id="t5" class="tab-content">
+  <div class="section-header">
+    <div class="theme-num">Thème 05</div>
+    <h2>Les Transmissions Mécaniques</h2>
+    <p>Systèmes permettant de transmettre et transformer le mouvement entre deux arbres.</p>
+  </div>
+
+  <div class="card">
+    <h3>🔄 5.1 — Transmission par courroie et poulie</h3>
+    <div class="grid-2">
+      <div>
+        <p style="color:#94a3b8;line-height:1.7;margin-bottom:1rem">Transmission entre deux arbres parallèles via une courroie. Glissement possible sauf courroie dentée.</p>
+        <div class="info-box"><strong>Types de courroies :</strong><br>• Courroie plate : simple, ancienne<br>• Courroie trapézoïdale (V) : meilleur grip, très répandue<br>• Courroie dentée (synchrone) : sans glissement<br>• Courroie ronde : faibles couples</div>
+        <div class="formula-box">
+          <div class="formula-name">Rapport de transmission</div>
+          i = D₁/D₂ = N₁/N₂
+          <div class="formula-vars"><span class="formula-var">D₁ = Ø poulie menante</span><span class="formula-var">D₂ = Ø poulie menée</span></div>
+        </div>
+      </div>
+      <div>
+        <table>
+          <thead><tr><th>Caractéristique</th><th>Valeur</th></tr></thead>
+          <tbody>
+            <tr><td>Rendement</td><td>92–98 %</td></tr>
+            <tr><td>Rapport max (V)</td><td>1:7</td></tr>
+            <tr><td>Vitesse courroie max</td><td>30–50 m/s</td></tr>
+            <tr><td>Sens de rotation</td><td>Même sens (croisement = inverse)</td></tr>
+            <tr><td>Glissement</td><td>Oui (sauf dentée)</td></tr>
+            <tr><td>Amortissement chocs</td><td>✅ Oui</td></tr>
+            <tr><td>Isolation électrique</td><td>✅ Oui</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>⛓ 5.2 — Transmission par chaîne et pignon</h3>
+    <div class="grid-2">
+      <div>
+        <p style="color:#94a3b8;line-height:1.7;margin-bottom:1rem">Engrènement d'une chaîne à rouleaux sur pignons dentés. Pas de glissement → rapport précis et constant.</p>
+        <div class="info-box"><strong>Types de chaînes :</strong><br>• Chaîne à rouleaux (ISO) : usage général<br>• Chaîne à douilles : charges lentes et lourdes<br>• Chaîne silencieuse : faible bruit<br>• Chaîne triplex : triple capacité de charge</div>
+        <div class="formula-box">
+          <div class="formula-name">Rapport de transmission</div>
+          i = Z₁/Z₂ = N₁/N₂
+          <div class="formula-vars"><span class="formula-var">Z₁ = nb dents menant</span><span class="formula-var">Z₂ = nb dents mené</span></div>
+        </div>
+      </div>
+      <div>
+        <table>
+          <thead><tr><th>Caractéristique</th><th>Valeur</th></tr></thead>
+          <tbody>
+            <tr><td>Rendement</td><td>96–99 %</td></tr>
+            <tr><td>Rapport max</td><td>1:8 (jusqu'à 1:15)</td></tr>
+            <tr><td>Vitesse chaîne max</td><td>≤ 15 m/s</td></tr>
+            <tr><td>Glissement</td><td>❌ Aucun</td></tr>
+            <tr><td>Entretien</td><td>Lubrification régulière</td></tr>
+            <tr><td>Applications</td><td>Vélo, moto, convoyeurs, agri</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>⚙️ 5.3 — Transmission par engrenages</h3>
+    <div class="grid-2">
+      <div>
+        <p style="color:#94a3b8;line-height:1.7;margin-bottom:1rem">Engrènement direct de roues dentées. Le plus précis et le plus robuste. Peut changer l'axe ou le sens.</p>
+        <div class="info-box"><strong>Types d'engrenages :</strong><br>• Cylindriques droits : axes parallèles<br>• Cylindriques hélicoïdaux : contact progressif, plus silencieux<br>• Coniques : axes perpendiculaires (différentiel)<br>• Vis sans fin : grand rapport, irréversible<br>• Planétaires : boîte de vitesses automatique</div>
+        <div class="formula-box">
+          <div class="formula-name">Module et rapport</div>
+          m = D/Z &nbsp;|&nbsp; i = Z₁/Z₂
+          <div class="formula-vars"><span class="formula-var">m = module (mm)</span><span class="formula-var">D = Ø primitif (mm)</span></div>
+        </div>
+      </div>
+      <div>
+        <table>
+          <thead><tr><th>Type</th><th>η</th><th>Application</th></tr></thead>
+          <tbody>
+            <tr><td>Cylindrique droit</td><td>98–99 %</td><td>Réducteurs industriels</td></tr>
+            <tr><td>Hélicoïdal</td><td>97–99 %</td><td>Boîtes de vitesses</td></tr>
+            <tr><td>Conique droit</td><td>96–98 %</td><td>Renvois d'angle 90°</td></tr>
+            <tr><td>Vis sans fin</td><td>40–85 %</td><td>Grand rapport / irréversible</td></tr>
+            <tr><td>Planétaire</td><td>96–99 %</td><td>Boîte auto, roue de véhicule</td></tr>
+          </tbody>
+        </table>
+        <div class="warn-box" style="margin-top:.8rem">⚠️ La <strong>vis sans fin</strong> est généralement irréversible : la roue ne peut pas entraîner la vis. Avantage en tant que système de blocage.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🔗 5.4 — Autres transmissions</h3>
+    <div class="grid-2">
+      <div class="transm-card"><h4>Roues de friction</h4><p>Contact direct entre deux roues lisses. Variateur continu. Glissement possible. Faibles couples. η = 90–95 %.</p></div>
+      <div class="transm-card"><h4>Accouplement rigide</h4><p>Liaison directe entre deux arbres coaxiaux. Manchon, bride. Pas d'amortissement.</p></div>
+      <div class="transm-card"><h4>Accouplement élastique</h4><p>Amortit chocs et vibrations. Tolère un léger désalignement. Éléments en caoutchouc ou polyuréthane.</p></div>
+      <div class="transm-card"><h4>Transmission hydraulique</h4><p>Convertisseur de couple hydraulique. Démarrage doux. Variation continue. Pertes par échauffement.</p></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>📊 5.5 — Tableau comparatif</h3>
+    <div style="overflow-x:auto">
+      <table>
+        <thead><tr><th>Type</th><th>Rapport max</th><th>Rendement</th><th>Glissement</th><th>Entretien</th></tr></thead>
+        <tbody>
+          <tr><td>Courroie plate</td><td>1:5</td><td>92–96 %</td><td>Oui</td><td>Faible</td></tr>
+          <tr><td>Courroie trapézoïdale</td><td>1:7</td><td>94–98 %</td><td>Oui</td><td>Faible</td></tr>
+          <tr><td>Courroie dentée</td><td>1:10</td><td>97–99 %</td><td>Non</td><td>Faible</td></tr>
+          <tr><td>Chaîne à rouleaux</td><td>1:8</td><td>96–99 %</td><td>Non</td><td>Moyen (huile)</td></tr>
+          <tr><td>Engrenages cylindriques</td><td>1:6</td><td>98–99 %</td><td>Non</td><td>Faible</td></tr>
+          <tr><td>Vis sans fin</td><td>1:100</td><td>40–85 %</td><td>Non</td><td>Moyen</td></tr>
+          <tr><td>Roues de friction</td><td>1:4</td><td>88–95 %</td><td>Oui</td><td>Très faible</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>📹 Vidéos — Transmissions mécaniques</h3>
+    <div class="video-link-card">
+      <a href="https://www.youtube.com/watch?v=m-5c12ZOlDQ" target="_blank" rel="noopener">
+        <div class="video-thumb">
+          <img src="https://img.youtube.com/vi/m-5c12ZOlDQ/mqdefault.jpg" alt="Transmissions mécaniques" onerror="this.style.display='none'">
+          <div class="play-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div>
+        </div>
+        <div class="video-info">
+          <div class="vid-platform">▶ YouTube</div>
+          <div class="vid-title">Roue de friction, poulie-courroie, pignon-chaîne, engrenages — résumé</div>
+          <div class="vid-desc">Transmission de puissance par adhérence et par obstacle. Cours synthétique illustré.</div>
+        </div>
+      </a>
+    </div>
+    <div class="video-link-card">
+      <a href="https://www.youtube.com/watch?v=5Xn26kxmX5U" target="_blank" rel="noopener">
+        <div class="video-thumb">
+          <img src="https://img.youtube.com/vi/5Xn26kxmX5U/mqdefault.jpg" alt="Systèmes de transmission" onerror="this.style.display='none'">
+          <div class="play-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div>
+        </div>
+        <div class="video-info">
+          <div class="vid-platform">▶ YouTube</div>
+          <div class="vid-title">Les systèmes de transmission du mouvement</div>
+          <div class="vid-desc">Roues de friction, courroie, chaîne, engrenages — principe, schémas, sens de rotation.</div>
+        </div>
+      </a>
+    </div>
+    <div class="video-link-card">
+      <a href="https://www.youtube.com/watch?v=Z7epqZQnmTk" target="_blank" rel="noopener">
+        <div class="video-thumb">
+          <img src="https://img.youtube.com/vi/Z7epqZQnmTk/mqdefault.jpg" alt="Courroies et chaînes" onerror="this.style.display='none'">
+          <div class="play-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div>
+        </div>
+        <div class="video-info">
+          <div class="vid-platform">▶ YouTube</div>
+          <div class="vid-title">Tout comprendre sur les courroies et chaînes</div>
+          <div class="vid-desc">Cours complet sur les transmissions par courroie et chaîne — calculs, rapports, applications.</div>
+        </div>
+      </a>
+    </div>
+    <div class="video-link-card">
+      <a href="https://www.youtube.com/watch?v=LKLkoL5DX38" target="_blank" rel="noopener">
+        <div class="video-thumb">
+          <img src="https://img.youtube.com/vi/LKLkoL5DX38/mqdefault.jpg" alt="Cours engrenages" onerror="this.style.display='none'">
+          <div class="play-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div>
+        </div>
+        <div class="video-info">
+          <div class="vid-platform">▶ YouTube</div>
+          <div class="vid-title">Cours transmission de puissance — engrenages, rapports</div>
+          <div class="vid-desc">Calculs de rapports de transmission, engrenages, réducteurs — cours illustré avec exercices.</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ===== QUIZ ===== -->
+<div id="quiz" class="tab-content">
+  <div class="section-header">
+    <div class="theme-num">Auto-Test · Style Kahoot</div>
+    <h2>Teste tes connaissances !</h2>
+    <p>20 questions couvrant les 5 thèmes du concours. Clique sur une réponse → correction immédiate et explication.</p>
+  </div>
+
+  <div class="quiz-header">
+    <div class="score-box" id="scoreDisplay">0 / 0</div>
+    <div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#fff">Score en cours</div>
+      <div class="progress-bar"><div class="progress-fill" id="progressBar" style="width:0%"></div></div>
+      <div style="font-size:.78rem;color:#94a3b8;margin-top:.3rem" id="progressText">0 / 20 répondues</div>
+    </div>
+    <div style="margin-left:auto;display:flex;gap:.7rem;flex-wrap:wrap">
+      <button class="btn-primary" onclick="submitAll()">Valider tout</button>
+      <button class="btn-secondary" onclick="resetQuiz()">Recommencer</button>
+    </div>
+  </div>
+
+  <div id="quizContainer"></div>
+
+  <div class="quiz-actions">
+    <button class="btn-primary" onclick="submitAll()">✓ Valider toutes les réponses</button>
+    <button class="btn-secondary" onclick="resetQuiz()">↺ Recommencer</button>
+  </div>
+</div>
+
+</main>
+<footer>⚡ Electromécanix · Outil pédagogique – Cours Technique de Qualification · 3e &amp; 4e année</footer>
+
+<script>
+function showTab(id){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  var idx=['t1','t2','t3','t4','t5','quiz'].indexOf(id);
+  document.querySelectorAll('.tab-btn')[idx].classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+var questions=[
+  {theme:'Outillage',q:"Quel outil permet de serrer un boulon avec un couple précis exprimé en N·m ?",opts:["Clé à fourche","Clé polygonale","Clé dynamométrique","Clé Allen"],ans:2,exp:"La <strong>clé dynamométrique</strong> mesure et limite le couple de serrage. Elle émet un clic lorsque la valeur réglée est atteinte. Indispensable pour les assemblages sensibles (culasse, roues, brides…)"},
+  {theme:'Outillage',q:"Quelle est la précision typique d'un micromètre (palmer) ?",opts:["1 mm","0,1 mm","0,01 mm","0,5 mm"],ans:2,exp:"Le <strong>micromètre</strong> atteint une précision de <strong>0,01 mm</strong>, voire 0,001 mm avec vernier. Bien supérieur au pied à coulisse standard (0,1 mm)."},
+  {theme:'Outillage',q:"À quoi sert un poinçon à centrer avant un perçage ?",opts:["À tracer une ligne droite","À faire une amorce pour éviter la déviation du foret","À agrandir un trou existant","À mesurer un diamètre intérieur"],ans:1,exp:"Le <strong>poinçon à centrer</strong> crée une empreinte conique sur la pièce. Cette amorce guide la pointe du foret et évite qu'il ne dévie au démarrage."},
+  {theme:'Outillage',q:"Qu'est-ce qu'un alésoir ?",opts:["Un outil pour créer un filetage intérieur","Un outil de finition pour obtenir un alésage précis","Un type de fraise cylindrique","Une jauge de mesure interne"],ans:1,exp:"L'<strong>alésoir</strong> finit un alésage déjà percé. Il permet d'obtenir un diamètre avec une tolérance serrée (H7, H6) et un bon état de surface. On tourne toujours dans le sens de coupe."},
+  {theme:'Tournage',q:"En tournage, quel élément entraîne la pièce en rotation ?",opts:["Le traînard","Le chariot transversal","La broche dans la poupée fixe","La contre-pointe"],ans:2,exp:"La <strong>broche</strong>, logée dans la <strong>poupée fixe</strong>, entraîne le mandrin et donc la pièce. La vitesse de rotation N (tr/min) est réglée via la boîte de vitesses."},
+  {theme:'Tournage',q:"Pour D = 50 mm et Vc = 100 m/min, quelle est la vitesse de rotation N ?",opts:["200 tr/min","637 tr/min","1000 tr/min","314 tr/min"],ans:1,exp:"N = (Vc × 1000) / (π × D) = (100 × 1000) / (3,14 × 50) = 100 000 / 157 ≈ <strong>637 tr/min</strong>. Formule incontournable pour le concours !"},
+  {theme:'Tournage',q:"Quel outil donne une surface perpendiculaire à l'axe de rotation ?",opts:["Outil à charioter","Outil à dresser","Outil à tronçonner","Outil à fileter"],ans:1,exp:"L'<strong>outil à dresser</strong> se déplace radialement et crée une face plane ⊥ à l'axe. L'opération s'appelle le <strong>dressage de face</strong>."},
+  {theme:'Tournage',q:"Dans quel ordre réalise-t-on les opérations en tournage ?",opts:["Finition → Ébauche → Demi-finition","Ébauche → Demi-finition → Finition","Demi-finition → Finition → Ébauche","Peu importe l'ordre"],ans:1,exp:"Toujours : <strong>Ébauche</strong> (forte passe) → <strong>Demi-finition</strong> → <strong>Finition</strong> (passe légère, haute vitesse). Cette logique garantit la précision dimensionnelle finale."},
+  {theme:'Fraisage',q:"En fraisage, lequel de ces éléments tourne ?",opts:["La pièce","La table","La fraise (outil)","Le mandrin porte-pièce"],ans:2,exp:"En fraisage, c'est la <strong>fraise (l'outil)</strong> qui tourne, contrairement au tournage. La pièce est fixée sur la table et se déplace en translation."},
+  {theme:'Fraisage',q:"Quelle différence entre fraisage en opposition et en concordance ?",opts:["En concordance, l'outil tourne dans le même sens que l'avance de la pièce","En opposition, la fraise tourne plus vite","En concordance, il faut une fraise à plus de dents","Il n'y a aucune différence"],ans:0,exp:"En <strong>concordance (avalant)</strong>, le sens de rotation de la fraise coïncide avec l'avance. Meilleure surface, mais nécessite une machine sans jeu. En <strong>opposition</strong>, les sens sont contraires."},
+  {theme:'Fraisage',q:"Que représente 'fz' dans Vf = fz × Z × N ?",opts:["La vitesse de coupe","L'avance par dent (mm/dent)","Le nombre de dents","La profondeur de passe"],ans:1,exp:"<strong>fz</strong> est l'<strong>avance par dent</strong> (mm/dent) : la distance parcourue par la pièce pendant qu'une dent effectue sa coupe. Paramètre clé de la qualité de surface."},
+  {theme:'Fraisage',q:"Pour fraiser une rainure de clavette, quel outil utilise-t-on ?",opts:["Fraise à plaquettes","Fraise conique","Fraise à queue cylindrique","Fraise 3 tailles"],ans:2,exp:"La <strong>fraise à queue cylindrique</strong> est standard pour les rainures de clavette. On effectue plusieurs passes en profondeur. La largeur de la fraise = largeur de la clavette."},
+  {theme:'Formules',q:"Quelle est la formule du couple moteur C en fonction de P et ω ?",opts:["C = P + ω","C = P / ω","C = P × ω","C = ω / P"],ans:1,exp:"P = C × ω → <strong>C = P / ω</strong>. Exemple : 5 kW à 1500 tr/min → ω = 2π×1500/60 = 157 rad/s → C = 5000/157 ≈ 31,8 N·m."},
+  {theme:'Formules',q:"Quelle est l'unité SI de la pression ?",opts:["Newton (N)","Joule (J)","Pascal (Pa)","Watt (W)"],ans:2,exp:"La pression s'exprime en <strong>Pascal (Pa)</strong> : 1 Pa = 1 N/m². En industrie on utilise aussi le bar (1 bar = 10⁵ Pa) ou le MPa (1 MPa = 1 N/mm²)."},
+  {theme:'Formules',q:"Rapport i = 4 : que se passe-t-il à la sortie ?",opts:["Vitesse × 4, couple ÷ 4","Vitesse ÷ 4, couple × 4","Les deux sont divisés par 4","Rien ne change"],ans:1,exp:"Avec i = 4 (réducteur) : <strong>N_sortie = N_entrée / 4</strong> et <strong>C_sortie ≈ 4 × C_entrée</strong> (moins les pertes). Un réducteur ralentit mais augmente le couple."},
+  {theme:'Transmissions',q:"Quel type de courroie ne glisse pas et transmet un mouvement synchronisé ?",opts:["Courroie plate","Courroie trapézoïdale","Courroie ronde","Courroie dentée (synchrone)"],ans:3,exp:"La <strong>courroie dentée</strong> s'engage dans des dents sur les poulies → aucun glissement. Utilisée pour la distribution moteur, les imprimantes, les machines CNC."},
+  {theme:'Transmissions',q:"Pignon menant : 20 dents. Pignon mené : 60 dents. Quel est le rapport i ?",opts:["i = 3 (réducteur)","i = 1/3 (multiplicateur)","i = 80","i = 1"],ans:0,exp:"i = N_entrée/N_sortie = Z_sortie/Z_entrée = 60/20 = <strong>3</strong> → c'est un <strong>réducteur</strong>. La sortie tourne 3 fois moins vite, le couple est multiplié par ~3."},
+  {theme:'Transmissions',q:"Quelle transmission est généralement irréversible ?",opts:["Engrenages cylindriques droits","Chaîne à rouleaux","Vis sans fin / roue hélicoïdale","Courroie trapézoïdale"],ans:2,exp:"La <strong>vis sans fin</strong> est irréversible car l'angle d'hélice est trop faible. La roue ne peut pas entraîner la vis. Avantage : blocage automatique (treuils, vérins, ascenseurs)."},
+  {theme:'Transmissions',q:"Principale différence entre courroie et engrenage ?",opts:["Les engrenages sont toujours plus bruyants","La courroie peut glisser ; les engrenages ne glissent pas","Les courroies transmettent plus de puissance","Les engrenages nécessitent toujours de l'huile"],ans:1,exp:"La différence fondamentale est le <strong>glissement</strong> : la courroie peut glisser sous surcharge. Les engrenages transmettent par obstacle (dents) : <strong>pas de glissement</strong>, rapport précis."},
+  {theme:'Transmissions',q:"Pour quel usage choisit-on la chaîne à rouleaux plutôt que la courroie ?",opts:["Transmission silencieuse à grande vitesse","Transmission sans entretien à faible couple","Transmission à rapport précis et couple élevé (vélo, convoyeur)","Isolation électrique entre arbres"],ans:2,exp:"La <strong>chaîne à rouleaux</strong> est idéale pour les transmissions à <strong>rapport précis</strong> (sans glissement), couples élevés, entraxes importants. Exemples : vélo, moto, convoyeur, machine agricole. Elle nécessite une lubrification régulière."}
+];
+
+var answered={};
+
+function buildQuiz(){
+  var c=document.getElementById('quizContainer');c.innerHTML='';
+  var letters=['A','B','C','D'];
+  questions.forEach(function(q,i){
+    var opts=q.opts.map(function(o,j){
+      return '<button class="option-btn" id="opt_'+i+'_'+j+'" onclick="selectOption('+i+','+j+')"><span class="option-letter">'+letters[j]+'</span>'+o+'</button>';
+    }).join('');
+    var el=document.createElement('div');
+    el.className='question-card';el.id='q'+i;
+    el.innerHTML='<div class="question-num">Question '+(i+1)+'/20 · '+q.theme+'</div><div class="question-text">'+q.q+'</div><div class="options">'+opts+'</div><div class="explanation" id="exp_'+i+'"><strong>✅ Explication :</strong> '+q.exp+'</div>';
+    c.appendChild(el);
+  });
+  updateScore();
+}
+
+function selectOption(qi,oi){
+  if(answered[qi]!==undefined)return;
+  answered[qi]=oi;
+  revealAnswer(qi);
+  updateScore();
+}
+
+function revealAnswer(qi){
+  var q=questions[qi];
+  var isOk=answered[qi]===q.ans;
+  for(var j=0;j<q.opts.length;j++){
+    var btn=document.getElementById('opt_'+qi+'_'+j);
+    btn.disabled=true;
+    if(j===q.ans)btn.classList.add('correct-ans');
+    else if(j===answered[qi]&&!isOk)btn.classList.add('wrong-ans');
+  }
+  document.getElementById('q'+qi).classList.add(isOk?'correct':'wrong');
+  document.getElementById('exp_'+qi).classList.add('show');
+}
+
+function submitAll(){
+  questions.forEach(function(q,i){
+    if(answered[i]===undefined)answered[i]=-1;
+    revealAnswer(i);
+  });
+  updateScore();
+}
+
+function updateScore(){
+  var c=0,t=0;
+  questions.forEach(function(q,i){
+    if(answered[i]!==undefined){t++;if(answered[i]===q.ans)c++;}
+  });
+  document.getElementById('scoreDisplay').textContent=c+' / '+t;
+  document.getElementById('progressBar').style.width=(t/questions.length*100)+'%';
+  document.getElementById('progressText').textContent=t+' / '+questions.length+' répondues';
+}
+
+function resetQuiz(){
+  answered={};buildQuiz();
+  window.scrollTo({top:document.getElementById('quiz').offsetTop-80,behavior:'smooth'});
+}
+
+buildQuiz();
+</script>
+</body>
+</html>
